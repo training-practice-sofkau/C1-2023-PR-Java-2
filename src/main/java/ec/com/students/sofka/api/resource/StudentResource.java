@@ -5,6 +5,7 @@ import ec.com.students.sofka.api.service.impl.StudentServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,5 +63,16 @@ public class StudentResource {
                 .switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
                 .map(dto -> new ResponseEntity<>(dto, HttpStatus.OK))
                 .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(studentDTO, HttpStatus.NOT_FOUND)));
+    }
+
+    @DeleteMapping("/students/{id}")
+    private Mono<ResponseEntity<String>> deleteStudent(
+            @PathVariable("id") String id
+    ) {
+        return studentService
+                .deleteStudent(id)
+                .switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
+                .map(str -> new ResponseEntity<>("Deleted student with id: " + str, HttpStatus.OK))
+                .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.NOT_FOUND)));
     }
 }

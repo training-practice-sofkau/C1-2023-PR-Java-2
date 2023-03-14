@@ -53,7 +53,11 @@ public class StudentServiceImpl implements IStudentService {
 
     @Override
     public Mono<String> deleteStudent(String id) {
-        return null;
+        return studentRepository
+                .findById(id)
+                .switchIfEmpty(Mono.empty())
+                .flatMap(student -> studentRepository.deleteById(student.getId()))
+                .flatMap(unused -> Mono.just(id));
     }
 
     @Override
