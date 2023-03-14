@@ -19,6 +19,6 @@ public class StudentDTO {
     private String idNum;
     private String name;
     private String lastname;
-    private String blocked;
+    private Boolean blocked;
     private List<String> books;
 }
