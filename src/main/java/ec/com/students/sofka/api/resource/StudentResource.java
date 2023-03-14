@@ -5,10 +5,7 @@ import ec.com.students.sofka.api.service.impl.StudentServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -27,6 +24,16 @@ public class StudentResource {
                 .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.NO_CONTENT)));
     }
 
+    @GetMapping("/students/{id}")
+    private Mono<ResponseEntity<StudentDTO>>getStudentById(@PathVariable String id){
+        return this.studentService
+                .getStudentById(id)
+                .switchIfEmpty(Mono.error(new Throwable(HttpStatus.OK.toString())))
+                .map(studentDTO -> new ResponseEntity<>(studentDTO, HttpStatus.OK))
+                .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.NO_CONTENT)));
+    }
+
+
     @PostMapping("/students")
     private Mono<ResponseEntity<StudentDTO>> save(@RequestBody StudentDTO studentDTO){
         return this.studentService
@@ -35,5 +42,8 @@ public class StudentResource {
                 .map(studentDTO1 -> new ResponseEntity<>(studentDTO, HttpStatus.CREATED))
                 .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED)));
     }
+    
+
+
 
 }
