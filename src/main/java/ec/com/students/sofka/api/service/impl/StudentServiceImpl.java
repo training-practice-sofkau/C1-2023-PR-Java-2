@@ -50,7 +50,7 @@ public class StudentServiceImpl implements IStudentService {
                 .findById(ID)
                 .switchIfEmpty(Mono.empty())
                 .flatMap(student ->{
-                 studentDTO.setId(studentDTO.getId());
+                 studentDTO.setId(student.getId());
                  return this.saveStudent(studentDTO);
                 });
     }
