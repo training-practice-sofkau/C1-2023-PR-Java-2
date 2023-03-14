@@ -25,6 +25,6 @@ public class Student {
     private String name;
     @NotNull(message ="lastname is required")
     private String lastname;
-    private Boolean blocked=false;
+    private Boolean blocked;
     private List<String> books;
 }

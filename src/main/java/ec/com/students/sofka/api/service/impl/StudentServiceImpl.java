@@ -38,6 +38,7 @@ public class StudentServiceImpl implements IStudentService {
 
     @Override
     public Mono<StudentDTO> saveStudent(StudentDTO studentDTO) {
+        studentDTO.setBlocked(false);
         return this.studentRepository
                 .save(toEntity(studentDTO))
                 .map(this::toDTO);
