@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
@@ -49,5 +50,17 @@ public class StudentResource {
                 .switchIfEmpty(Mono.error(new Throwable(HttpStatus.EXPECTATION_FAILED.toString())))
                 .map(dto -> new ResponseEntity<>(dto, HttpStatus.CREATED))
                 .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED)));
+    }
+
+    @PutMapping("/students/update/{id}")
+    private Mono<ResponseEntity<StudentDTO>> updateStudent(
+            @PathVariable("id") String id,
+            @RequestBody StudentDTO studentDTO
+    ) {
+        return studentService
+                .updateStudent(id, studentDTO)
+                .switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
+                .map(dto -> new ResponseEntity<>(dto, HttpStatus.OK))
+                .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(studentDTO, HttpStatus.NOT_FOUND)));
     }
 }

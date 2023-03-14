@@ -42,7 +42,13 @@ public class StudentServiceImpl implements IStudentService {
 
     @Override
     public Mono<StudentDTO> updateStudent(String id, StudentDTO studentDTO) {
-        return null;
+        return studentRepository
+                .findById(id)
+                .switchIfEmpty(Mono.empty())
+                .flatMap(student -> {
+                    studentDTO.setId(student.getId());
+                    return this.saveStudent(studentDTO);
+                });
     }
 
     @Override
