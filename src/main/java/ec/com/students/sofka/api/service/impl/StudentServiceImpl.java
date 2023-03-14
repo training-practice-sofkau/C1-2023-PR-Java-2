@@ -32,7 +32,9 @@ public class StudentServiceImpl implements IStudentService {
 
     @Override
     public Mono<StudentDTO> saveStudent(StudentDTO studentDTO) {
-        return null;
+        return studentRepository
+                .save(toEntity(studentDTO))
+                .map(this::toDto);
     }
 
     @Override
