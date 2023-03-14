@@ -42,7 +42,15 @@ public class StudentResource {
                 .map(studentDTO1 -> new ResponseEntity<>(studentDTO, HttpStatus.CREATED))
                 .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED)));
     }
-    
+
+    @GetMapping("/students/{id}")
+    private Mono<ResponseEntity<String>>deleteStudent(@PathVariable String id){
+        return this.studentService
+                .deleteStudent(id)
+                .switchIfEmpty(Mono.error(new Throwable(HttpStatus.OK.toString())))
+                .map(s -> new ResponseEntity<>("Deleted "+s, HttpStatus.OK))
+                .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.NO_CONTENT)));
+    }
 
 
 
