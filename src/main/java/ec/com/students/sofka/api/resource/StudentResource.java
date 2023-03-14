@@ -2,6 +2,7 @@ package ec.com.students.sofka.api.resource;
 
 import ec.com.students.sofka.api.domain.dto.StudentDTO;
 import ec.com.students.sofka.api.service.impl.StudentServiceImpl;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +45,7 @@ public class StudentResource {
 
     @PostMapping("/students")
     private Mono<ResponseEntity<StudentDTO>> saveStudent(
-            @RequestBody StudentDTO studentDTO
+            @Valid @RequestBody StudentDTO studentDTO
     ) {
         return studentService
                 .saveStudent(studentDTO)
