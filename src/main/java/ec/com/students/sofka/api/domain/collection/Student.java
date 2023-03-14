@@ -11,11 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-
 @Data
 //@AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "books")
+@Document(collection = "SofkaReactive")
 public class Student {
 
     @Id
@@ -31,9 +30,8 @@ public class Student {
     @NotNull(message = "Last name can't be null")
     private List<String> lastName = new ArrayList<>();
 
-
     private List<String> banned = new ArrayList<>();
 
-    private Integer books;
+    private List<Integer> books;
 
 }

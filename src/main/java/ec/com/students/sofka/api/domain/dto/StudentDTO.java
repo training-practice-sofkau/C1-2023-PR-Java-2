@@ -1,6 +1,5 @@
 package ec.com.students.sofka.api.domain.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,5 +27,5 @@ public class StudentDTO {
 
     private List<String> banned;
 
-    private Integer books;
+    private List<Integer> books;
 }
