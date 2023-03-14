@@ -27,7 +27,10 @@ public class StudentServiceImpl implements IStudentService {
 
     @Override
     public Mono<StudentDTO> getStudentById(String id) {
-        return null;
+        return studentRepository
+                .findById(id)
+                .switchIfEmpty(Mono.empty())
+                .map(this::toDto);
     }
 
     @Override
