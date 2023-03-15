@@ -4,6 +4,7 @@ import ec.com.students.sofka.api.domain.collection.Student;
 import ec.com.students.sofka.api.domain.dto.StudentDTO;
 import ec.com.students.sofka.api.service.impl.StudentServiceImpl;
 import lombok.AllArgsConstructor;
+import lombok.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -29,8 +30,8 @@ public class StudentResource {
     }
 
     @GetMapping("/students/{id}")
-    private Mono<ResponseEntity<StudentDTO>> getById(@PathVariable String Id){
-        return this.studentService.getStudentById(Id)
+    private Mono<ResponseEntity<StudentDTO>> getById(@PathVariable String id){
+        return this.studentService.getStudentById(id)
                 .switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
                 .map(studentDTO -> new ResponseEntity<>(studentDTO, HttpStatus.FOUND))
                 .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.NOT_FOUND)));
@@ -43,5 +44,23 @@ public class StudentResource {
                 .switchIfEmpty(Mono.error(new Throwable(HttpStatus.EXPECTATION_FAILED.toString())))
                 .map(studentDTO1 -> new ResponseEntity<>(studentDTO1, HttpStatus.CREATED))
                 .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED)));
+    }
+
+    @PutMapping("/students/{id}")
+    private Mono<ResponseEntity<StudentDTO>> update(@PathVariable String id, @Valid @RequestBody StudentDTO studentDTO){
+        return this.studentService
+                .updateStudent(id, studentDTO)
+                .switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
+                .map(studentDTO1 -> new ResponseEntity<>(studentDTO1, HttpStatus.OK))
+                .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(studentDTO, HttpStatus.NOT_FOUND)));
+    }
+
+    @DeleteMapping("students/{id}")
+    private Mono<ResponseEntity<String>> delete(@PathVariable String id){
+        return this.studentService
+                .deleteStudent(id)
+                .switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
+                .map(s -> new ResponseEntity<>("Deleted " + s, HttpStatus.GONE))
+                .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.NOT_FOUND)));
     }
 }
