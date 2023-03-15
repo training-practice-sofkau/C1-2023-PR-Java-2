@@ -53,8 +53,9 @@ public class StudentService implements IStudentService {
     @Override
     public Mono<Void> delete(String id) {
         return studentRepository.findById(id)
-                .switchIfEmpty(Mono.empty())
-                .flatMap(studentRepository::delete);
+                .switchIfEmpty(Mono.error(new Exception("Student not found")))
+                .flatMap(studentRepository::delete)
+                .onErrorResume(error -> Mono.error(new Exception("Error deleting student, not found")));
     }
 
     @Override
