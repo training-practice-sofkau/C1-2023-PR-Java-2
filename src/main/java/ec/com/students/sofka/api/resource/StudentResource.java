@@ -33,7 +33,7 @@ public class StudentResource {
                 .getStudentById(id)
                 .switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
                 .map(studentDTO1 -> new ResponseEntity<>(studentDTO1, HttpStatus.OK))
-                .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.NO_CONTENT)));
+                .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.NOT_FOUND)));
     }
 
     @PostMapping("/students")
