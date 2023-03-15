@@ -50,12 +50,11 @@ public class StudentServiceImpl implements IStudentService {
 
     @Override
     public Mono<String> deleteStudent(String id) {
+        System.out.println(iStudentRepository.findById(id));
         return iStudentRepository.findById(id)
-                .switchIfEmpty(Mono.empty())
-                .flatMap(st -> {
-                    iStudentRepository.deleteById(st.getId());
-                    return Mono.just("student id "+id+" deleted");
-                });
+                .switchIfEmpty(Mono.error(new IllegalArgumentException("Student not found")))
+                .flatMap(st -> iStudentRepository.deleteById(id))
+                .flatMap(s -> Mono.just(id));
     }
 
     @Override
