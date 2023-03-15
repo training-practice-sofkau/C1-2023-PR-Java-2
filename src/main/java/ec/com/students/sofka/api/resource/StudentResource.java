@@ -19,7 +19,7 @@ public class StudentResource {
     @PostMapping("/students")
     private Mono<ResponseEntity<StudentDTO>> save(@Valid @RequestBody StudentDTO studentDTO){
         return this.studentService
-                .saveBook(studentDTO)
+                .saveStudent(studentDTO)
                 .switchIfEmpty(Mono.error(new Throwable(HttpStatus.EXPECTATION_FAILED.toString())))
                 .map(studentDTO1 -> new ResponseEntity<>(studentDTO1,HttpStatus.CREATED))
                 .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED)));
@@ -42,5 +42,15 @@ public class StudentResource {
                 .switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
                 .map(studentDTO -> new ResponseEntity<>(studentDTO, HttpStatus.FOUND))
                 .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.NO_CONTENT)));
+    }
+
+
+    @PutMapping("/students/{id}")
+    private Mono<ResponseEntity<StudentDTO>> update(@PathVariable String id, @Valid @RequestBody StudentDTO studentDTO){
+        return this.studentService
+                .updateStudent(id, studentDTO)
+                .switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
+                .map(studentDTO1 -> new ResponseEntity<>(studentDTO1, HttpStatus.OK))
+                .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(studentDTO, HttpStatus.NOT_FOUND)));
     }
 }

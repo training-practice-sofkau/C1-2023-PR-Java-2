@@ -7,12 +7,18 @@ import reactor.core.publisher.Mono;
 
 public interface IStudentService {
     //POST
-    Mono<StudentDTO> saveBook(StudentDTO studentDTODTO);
+    Mono<StudentDTO> saveStudent(StudentDTO studentDTODTO);
 
     //GETS
     Flux<StudentDTO> getAllStudents();
+
     Mono<StudentDTO> getStudentById(String id);
 
+    //PUT
+    Mono<StudentDTO> updateStudent(String id, StudentDTO studentDTO);
+
+    //DELETE
+    Mono<String> deleteStudent(String id);
     StudentDTO toDto(Student student);
     Student toEntity(StudentDTO studentDTO);
 }

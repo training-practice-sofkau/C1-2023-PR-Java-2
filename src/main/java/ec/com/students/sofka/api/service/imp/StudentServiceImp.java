@@ -17,7 +17,7 @@ public class StudentServiceImp implements IStudentService {
     private final ModelMapper mapper;
 
     @Override
-    public Mono<StudentDTO> saveBook(StudentDTO studentDTO) {
+    public Mono<StudentDTO> saveStudent(StudentDTO studentDTO) {
         return this.studentRepository.save(toEntity(studentDTO)).map(this::toDto);
     }
 
@@ -35,6 +35,22 @@ public class StudentServiceImp implements IStudentService {
                 .findById(id)
                 .switchIfEmpty(Mono.empty())
                 .map(this::toDto);
+    }
+
+    @Override
+    public Mono<StudentDTO> updateStudent(String id, StudentDTO studentDTO) {
+        return this.studentRepository
+                .findById(id)
+                .switchIfEmpty(Mono.empty())
+                .flatMap(student -> {
+                    studentDTO.setId(student.getId());
+                    return this.saveStudent(studentDTO);
+                });
+    }
+
+    @Override
+    public Mono<String> deleteStudent(String id) {
+        return null;
     }
 
     @Override
