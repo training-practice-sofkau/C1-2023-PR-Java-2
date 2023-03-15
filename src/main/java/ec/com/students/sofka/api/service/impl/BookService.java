@@ -41,11 +41,7 @@ public class BookService implements IBookService {
         return bookRepository.findById(id)
                 .switchIfEmpty(Mono.empty())
                 .map(book -> {
-                    book.setIsbn(bookDTO.getIsbn());
-                    book.setTitle(bookDTO.getTitle());
-                    book.setAuthors(bookDTO.getAuthors());
                     book.setGenres(bookDTO.getGenres());
-                    book.setYear(bookDTO.getYear());
                     book.setAvailable(bookDTO.getAvailable());
                     return book;
                 })

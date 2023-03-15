@@ -42,8 +42,6 @@ public class StudentService implements IStudentService {
         return studentRepository.findById(id)
                 .switchIfEmpty(Mono.empty())
                 .map(student -> {
-                    student.setName(studentDTO.getName());
-                    student.setLastName(studentDTO.getLastName());
                     student.setActive(studentDTO.getActive());
                     student.setBooks(studentDTO.getBooks());
                     return student;
