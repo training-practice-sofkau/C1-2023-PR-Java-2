@@ -15,19 +15,19 @@ public interface IStudentService {
 
     //POST
 
-    Mono<StudentDTO> saveStudent(StudentDTO bookDTO);
+    Mono<StudentDTO> saveStudent(StudentDTO studentDTO);
 
     //PUT
 
-    Mono<StudentDTO> updateStudent(String id, StudentDTO bookDTO);
+    Mono<StudentDTO> updateStudent(String id, StudentDTO studentDTO);
 
     //DELETE
 
-    Mono<String> deleteStudent(String id);
+    Mono<Void> deleteStudent(String id);
 
     //Mappers
 
-    StudentDTO toDto(Student book);
+    StudentDTO toDto(Student student);
 
-    Student toEntity(StudentDTO bookDTO);
+    Student toEntity(StudentDTO studentDTO);
 }

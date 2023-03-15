@@ -28,10 +28,10 @@ public class Student {
     private String name;
 
     @NotNull(message = "Last name can't be null")
-    private List<String> lastName = new ArrayList<>();
+    private String lastName;
 
-    private List<String> banned = new ArrayList<>();
+    private Boolean banned = false;
 
-    private List<Integer> books;
+    private List<Integer> books = new ArrayList<>();
 
 }

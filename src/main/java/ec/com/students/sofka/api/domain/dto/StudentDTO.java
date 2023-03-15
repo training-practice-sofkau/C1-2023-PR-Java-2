@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -13,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor
 public class StudentDTO {
 
-    private String id;
+    private String studentID;
 
     @NotNull(message = "Student's ID number can't be null")
     @Size(min = 10, max = 12, message = "ID must be between 6 and 12 characters long")
@@ -23,9 +24,9 @@ public class StudentDTO {
     private String name;
 
     @NotNull(message = "Last name can't be null")
-    private List<String> lastName;
+    private String lastName;
 
-    private List<String> banned;
+    private Boolean banned = false;
 
-    private List<Integer> books;
+    private List<Integer> books = new ArrayList<>();
 }

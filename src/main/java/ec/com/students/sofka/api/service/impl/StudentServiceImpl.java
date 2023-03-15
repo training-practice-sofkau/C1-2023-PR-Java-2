@@ -39,37 +39,38 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
-    public Mono<StudentDTO> saveStudent(StudentDTO bookDTO) {
-        return this.studentRepository.save(toEntity(bookDTO)).map(this::toDto);
+    public Mono<StudentDTO> saveStudent(StudentDTO studentDTO) {
+        return this.studentRepository.save(toEntity(studentDTO)).map(this::toDto);
     }
 
     @Override
-    public Mono<StudentDTO> updateStudent(String id, StudentDTO bookDTO) {
+    public Mono<StudentDTO> updateStudent(String id, StudentDTO studentDTO) {
         return this.studentRepository
                 .findById(id)
                 .switchIfEmpty(Mono.empty())
-                .flatMap(book -> {
-                    bookDTO.setId(book.getStudentID());
-                    return this.saveStudent(bookDTO);
+                .flatMap(student -> {
+                    studentDTO.setStudentID(student.getStudentID());
+                    return this.saveStudent(studentDTO);
                 });
     }
 
     @Override
-    public Mono<String> deleteStudent(String id) {
+    public Mono<Void> deleteStudent(String id) {
         return this.studentRepository
                 .findById(id)
-                .switchIfEmpty(Mono.empty())
-                .flatMap(book -> this.studentRepository.deleteById(book.getStudentID()))
-                .flatMap(unused -> Mono.just(id));
+                .switchIfEmpty(Mono.error(new RuntimeException("Student not found")))
+                .flatMap(this.studentRepository::delete)
+                //.map(s -> "Student deleted");
+                .onErrorResume(Mono::error);
     }
 
     @Override
-    public StudentDTO toDto(Student book) {
-        return this.mapper.map(book, StudentDTO.class);
+    public StudentDTO toDto(Student student) {
+        return this.mapper.map(student, StudentDTO.class);
     }
 
     @Override
-    public Student toEntity(StudentDTO bookDTO) {
-        return this.mapper.map(bookDTO, Student.class);
+    public Student toEntity(StudentDTO studentDTO) {
+        return this.mapper.map(studentDTO, Student.class);
     }
 }
