@@ -52,7 +52,7 @@ public class StudentServiceImp implements IStudentService {
     public Mono<Void> deleteStudent(String id) {
         return this.studentRepository
                 .findById(id)
-                .switchIfEmpty(Mono.empty())
+                .switchIfEmpty(Mono.error(new Exception("Student not found")))
                 .flatMap(studentRepository::delete)
                 .onErrorResume(error -> Mono.error(new Exception("Student not found")));
     }
