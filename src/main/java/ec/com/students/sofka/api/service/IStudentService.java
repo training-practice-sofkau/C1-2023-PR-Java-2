@@ -13,9 +13,9 @@ public interface IStudentService {
 
     Mono<StudentDTO> saveStudent(StudentDTO studentDTO);
 
-    Mono<StudentDTO> updateStudent(String id, StudentDTO studentDTO);
+    Mono<StudentDTO> updateStudent(String Id, StudentDTO studentDTO);
 
-    Mono<String> deleteStudent(String id);
+    Mono<String> deleteStudent(String Id);
 
     // Mappers
     StudentDTO toDTO(Student student);
