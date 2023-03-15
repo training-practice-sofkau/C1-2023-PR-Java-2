@@ -30,6 +30,14 @@ public class StudentServiceImp implements IStudentService {
     }
 
     @Override
+    public Mono<StudentDTO> getStudentById(String id) {
+        return this.studentRepository
+                .findById(id)
+                .switchIfEmpty(Mono.empty())
+                .map(this::toDto);
+    }
+
+    @Override
     public StudentDTO toDto(Student student) {
         return this.mapper.map(student, StudentDTO.class);
     }

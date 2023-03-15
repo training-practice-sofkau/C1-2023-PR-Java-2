@@ -11,6 +11,7 @@ public interface IStudentService {
 
     //GETS
     Flux<StudentDTO> getAllStudents();
+    Mono<StudentDTO> getStudentById(String id);
 
     StudentDTO toDto(Student student);
     Student toEntity(StudentDTO studentDTO);
