@@ -57,7 +57,7 @@ public class StudentServiceImpl implements IStudentService {
         return this.studentRepository
                 .findById(id)
                 .switchIfEmpty(Mono.empty())
-                .flatMap(student -> this.studentRepository.deleteById(student.getId()))
+                .map(student -> this.studentRepository.deleteById(student.getId()))
                 .flatMap(unused -> Mono.just(id));
     }
 
