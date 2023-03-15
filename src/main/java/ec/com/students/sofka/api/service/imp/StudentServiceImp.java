@@ -7,6 +7,7 @@ import ec.com.students.sofka.api.service.IStudentService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
@@ -18,6 +19,14 @@ public class StudentServiceImp implements IStudentService {
     @Override
     public Mono<StudentDTO> saveBook(StudentDTO studentDTO) {
         return this.studentRepository.save(toEntity(studentDTO)).map(this::toDto);
+    }
+
+    @Override
+    public Flux<StudentDTO> getAllStudents() {
+        return this.studentRepository
+                .findAll()
+                .switchIfEmpty(Flux.empty())
+                .map(this::toDto);
     }
 
     @Override
