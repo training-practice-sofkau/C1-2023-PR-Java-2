@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.Objects;
+
 @RestController
 @AllArgsConstructor
 public class StudentResource {
@@ -47,16 +49,16 @@ public class StudentResource {
     private Mono<ResponseEntity<StudentDTO>> updateStudent(@PathVariable String id,@RequestBody StudentDTO studentDTO){
         return studentService
                 .updateStudent(id,studentDTO)
-                .switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
-                .map(studentDTO1 -> new ResponseEntity<>(studentDTO1, HttpStatus.OK))
-                .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(studentDTO, HttpStatus.NOT_FOUND)));
+                .switchIfEmpty(Mono.error(new Exception("Id not found")))
+                .map(studentDTO1 -> new ResponseEntity<>(studentDTO1,HttpStatus.CREATED))
+                .onErrorResume(e -> Mono.just(new ResponseEntity<>(studentDTO,HttpStatus.NOT_FOUND)));
     }
 
     @DeleteMapping("/students/{id}")
     private Mono<ResponseEntity<String>> deleteStudent(@PathVariable String id){
         return studentService
                 .deleteStudent(id)
-                .map(s -> new ResponseEntity<>("Hola",HttpStatus.ACCEPTED))
+                .flatMap(s -> Mono.just(new ResponseEntity<String>(HttpStatus.OK)))
                 .onErrorResume(throwable -> Mono.just(
                         new ResponseEntity<>(HttpStatus.NOT_FOUND)
                 ));
