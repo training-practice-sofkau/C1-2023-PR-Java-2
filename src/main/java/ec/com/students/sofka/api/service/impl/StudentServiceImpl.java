@@ -7,6 +7,8 @@ import ec.com.students.sofka.api.repository.StudentRepository;
 import ec.com.students.sofka.api.service.IStudentService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -57,13 +59,13 @@ public class StudentServiceImpl implements IStudentService {
     }
 
     @Override
-    public Mono<String> deleteStudent(String ID) {
+    public Mono<Void> deleteStudent(String ID) {
 
         return this.studentRepository
                 .findById(ID)
-                .switchIfEmpty(Mono.empty())
+                .switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
                 .flatMap(student -> this.studentRepository.deleteById(student.getId()))
-                .flatMap(unused -> Mono.just(ID));
+                .onErrorResume(throwable -> Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())));
     }
 
     @Override

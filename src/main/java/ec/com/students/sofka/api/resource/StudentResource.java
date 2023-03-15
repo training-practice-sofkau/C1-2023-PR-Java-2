@@ -55,9 +55,8 @@ public class StudentResource {
     private Mono<ResponseEntity<String>>deleteStudent(@PathVariable String id){
         return this.studentService
                 .deleteStudent(id)
-                .switchIfEmpty(Mono.error(new Throwable(HttpStatus.OK.toString())))
-                .map(s -> new ResponseEntity<>("Deleted "+s, HttpStatus.OK))
+                .map(s -> new ResponseEntity<>("Student with ID: was deleted", HttpStatus.OK))
                 .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.NO_CONTENT)));
-    }
 
+    }
 }

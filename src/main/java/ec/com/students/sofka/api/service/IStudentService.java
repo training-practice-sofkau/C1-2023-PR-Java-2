@@ -10,7 +10,7 @@ public interface IStudentService {
     Mono<StudentDTO> getStudentById(String ID);
     Mono<StudentDTO> saveStudent(StudentDTO studentDTO);
     Mono<StudentDTO> updateStudent(String ID, StudentDTO studentDTO);
-    Mono<String> deleteStudent(String ID);
+    Mono<Void> deleteStudent(String ID);
 
     //Mappers
     StudentDTO toDTO(Student student);
