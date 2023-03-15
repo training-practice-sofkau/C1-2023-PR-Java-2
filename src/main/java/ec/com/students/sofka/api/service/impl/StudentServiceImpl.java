@@ -36,6 +36,7 @@ public class StudentServiceImpl implements IStudentService {
 
     @Override
     public Mono<StudentDTO> saveStudent(StudentDTO studentDTO) {
+        // Should we do a validation here in order to know if the studentDTO is not empty?
         return this.studentRepository
                 .save(toEntity(studentDTO))
                 .map(this::toDTO);
