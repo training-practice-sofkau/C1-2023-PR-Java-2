@@ -1,5 +1,6 @@
 package ec.com.students.sofka.api.domain.collection;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
