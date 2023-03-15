@@ -21,7 +21,8 @@ public class StudentServiceImpl implements IStudentService {
     @Override
     public Flux<StudentDTO> getAllStudents() {
         return this.studentRepository
-                .findAll().switchIfEmpty(Flux.empty())
+                .findAll()
+                .switchIfEmpty(Flux.empty())
                 .map(this::toDTO);
     }
 

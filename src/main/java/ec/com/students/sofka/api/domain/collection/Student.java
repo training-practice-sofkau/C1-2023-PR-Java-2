@@ -28,6 +28,6 @@ public class Student {
 
     private Boolean blocked = false;
 
-    private List<String> books;
+    //private List<String> books;
 
 }

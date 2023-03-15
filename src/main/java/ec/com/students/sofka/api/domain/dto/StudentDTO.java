@@ -1,5 +1,6 @@
 package ec.com.students.sofka.api.domain.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -11,7 +12,7 @@ import java.util.UUID;
 
 @Data
 @NoArgsConstructor
-@Document(collection = "students")
+@AllArgsConstructor
 public class StudentDTO {
 
     private String id;
@@ -27,6 +28,6 @@ public class StudentDTO {
 
     private Boolean blocked = false;
 
-    private List<String> books;
+    //private List<String> books;
 
 }
