@@ -53,4 +53,13 @@ public class StudentResource {
                 .map(studentDTO1 -> new ResponseEntity<>(studentDTO1, HttpStatus.OK))
                 .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(studentDTO, HttpStatus.NOT_FOUND)));
     }
+
+    @DeleteMapping("/students/{id}")
+    private Mono<ResponseEntity<String>> delete(@PathVariable String id){
+        return this.studentService
+                .deleteStudent(id)
+                .switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
+                .map(s -> ResponseEntity.ok("Student deleted"))
+                .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.NOT_FOUND)));
+    }
 }

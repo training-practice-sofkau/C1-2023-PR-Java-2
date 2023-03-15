@@ -49,8 +49,12 @@ public class StudentServiceImp implements IStudentService {
     }
 
     @Override
-    public Mono<String> deleteStudent(String id) {
-        return null;
+    public Mono<Void> deleteStudent(String id) {
+        return this.studentRepository
+                .findById(id)
+                .switchIfEmpty(Mono.empty())
+                .flatMap(studentRepository::delete)
+                .onErrorResume(error -> Mono.error(new Exception("Student not found")));
     }
 
     @Override
