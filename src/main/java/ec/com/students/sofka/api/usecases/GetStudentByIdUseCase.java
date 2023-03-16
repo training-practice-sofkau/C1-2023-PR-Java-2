@@ -1,26 +1,26 @@
 package ec.com.students.sofka.api.usecases;
 
-import ec.com.students.sofka.api.domain.collection.Student;
 import ec.com.students.sofka.api.domain.dto.StudentDTO;
 import ec.com.students.sofka.api.repository.StudentRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
-import java.util.function.Supplier;
+import java.util.function.Function;
 
 @Service
 @AllArgsConstructor
-public class GetAllStudentsUseCase implements Supplier<Flux<StudentDTO>> {
+public class GetStudentByIdUseCase implements Function<String, Mono<StudentDTO>> {
+
     private final StudentRepository studentRepository;
     private final ModelMapper mapper;
 
     @Override
-    public Flux<StudentDTO> get() {
+    public Mono<StudentDTO> apply(String ID) {
         return this.studentRepository
-                .findAll()
-                .switchIfEmpty(Flux.empty())
+                .findById(ID)
+                .switchIfEmpty(Mono.empty())
                 .map(student -> mapper.map(student, StudentDTO.class));
     }
 }
