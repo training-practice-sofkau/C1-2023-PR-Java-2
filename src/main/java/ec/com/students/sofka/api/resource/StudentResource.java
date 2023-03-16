@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@RestController
+//@RestController
 @AllArgsConstructor
 public class StudentResource {
     private final StudentServiceImpl studentService;
