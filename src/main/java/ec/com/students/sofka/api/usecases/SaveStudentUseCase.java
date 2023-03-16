@@ -1,5 +1,6 @@
 package ec.com.students.sofka.api.usecases;
 
+import ec.com.students.sofka.api.domain.collection.Student;
 import ec.com.students.sofka.api.domain.dto.StudentDTO;
 import ec.com.students.sofka.api.repository.StudentRepository;
 import lombok.AllArgsConstructor;
@@ -18,6 +19,9 @@ public class SaveStudentUseCase implements Function<StudentDTO, Mono<StudentDTO>
 
     @Override
     public Mono<StudentDTO> apply(StudentDTO studentDTO) {
-        return null;
+        studentDTO.setBlocked(false);
+        return this.studentRepository
+                .save(mapper.map(studentDTO, Student.class))
+                .map(student -> mapper.map(student, StudentDTO.class));
     }
 }
