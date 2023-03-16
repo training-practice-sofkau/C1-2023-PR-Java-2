@@ -1,6 +1,5 @@
 package ec.com.students.sofka.api.service.impl;
 
-import ec.com.students.sofka.api.config.ModelMapperConfig;
 import ec.com.students.sofka.api.domain.collection.Student;
 import ec.com.students.sofka.api.domain.dto.StudentDTO;
 import ec.com.students.sofka.api.repository.StudentRepository;
@@ -8,7 +7,6 @@ import ec.com.students.sofka.api.service.IStudentService;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
