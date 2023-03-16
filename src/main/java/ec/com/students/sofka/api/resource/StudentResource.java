@@ -13,12 +13,13 @@ import javax.validation.Valid;
 
 @RestController
 @AllArgsConstructor
+@RequestMapping("api/students")
 public class StudentResource {
 
     private final StudentServiceImpl studentService;
 
-    @GetMapping("/students")
-    private Mono<ResponseEntity<Flux<StudentDTO>>> getAll(){
+    @GetMapping
+    private Mono<ResponseEntity<Flux<StudentDTO>>> getAllStudents(){
         return this.studentService
                 .getAllStudents()
                 .switchIfEmpty(Flux.error(new Throwable(HttpStatus.NO_CONTENT.toString())))
@@ -27,16 +28,16 @@ public class StudentResource {
                 .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.NO_CONTENT)));
     }
 
-    @GetMapping("/students/{id}")
-    private Mono<ResponseEntity<StudentDTO>> getById(@PathVariable String id){
+    @GetMapping("/{id}")
+    private Mono<ResponseEntity<StudentDTO>> getStudentById(@PathVariable String id){
         return this.studentService.getStudentById(id)
                 .switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
                 .map(studentDTO -> new ResponseEntity<>(studentDTO, HttpStatus.FOUND))
                 .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.NOT_FOUND)));
     }
 
-    @PostMapping("/students")
-    private Mono<ResponseEntity<StudentDTO>> save(@Valid @RequestBody StudentDTO studentDTO){
+    @PostMapping
+    private Mono<ResponseEntity<StudentDTO>> saveStudent(@Valid @RequestBody StudentDTO studentDTO){
         return this.studentService
                 .saveStudent(studentDTO)
                 .switchIfEmpty(Mono.error(new Throwable(HttpStatus.EXPECTATION_FAILED.toString())))
@@ -44,8 +45,8 @@ public class StudentResource {
                 .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.EXPECTATION_FAILED)));
     }
 
-    @PutMapping("/students/{id}")
-    private Mono<ResponseEntity<StudentDTO>> update(@PathVariable String id, @Valid @RequestBody StudentDTO studentDTO){
+    @PutMapping("/{id}")
+    private Mono<ResponseEntity<StudentDTO>> updateStudent(@PathVariable String id, @Valid @RequestBody StudentDTO studentDTO){
         return this.studentService
                 .updateStudent(id, studentDTO)
                 .switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
@@ -53,12 +54,11 @@ public class StudentResource {
                 .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(studentDTO, HttpStatus.NOT_FOUND)));
     }
 
-    @DeleteMapping("/students/{id}")
-    private Mono<ResponseEntity<String>> delete(@PathVariable String id){
+    @DeleteMapping("/{id}")
+    private Mono<ResponseEntity<String>>deleteStudent(@PathVariable String id){
         return this.studentService
                 .deleteStudent(id)
-                .switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
-                .map(s -> new ResponseEntity<>("Deleted "+s,HttpStatus.OK))
-                .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.NOT_FOUND)));
+                .map(s -> new ResponseEntity<>("Student with ID: was deleted", HttpStatus.OK))
+                .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.NO_CONTENT)));
     }
 }
