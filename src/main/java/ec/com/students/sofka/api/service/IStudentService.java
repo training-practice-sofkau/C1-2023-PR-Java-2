@@ -11,7 +11,7 @@ public interface IStudentService {
     Mono<StudentDTO> getStudentById(String id);
     Mono<StudentDTO> saveStudent(StudentDTO studentDTO);
     Mono<StudentDTO> updateStudent(String id, StudentDTO studentDTO);
-    Mono<String> deleteStudent(String id);
+    Mono<Void> deleteStudent(String id);
     StudentDTO toDto(Student student);
     Student toEntity(StudentDTO studentDTO);
 }

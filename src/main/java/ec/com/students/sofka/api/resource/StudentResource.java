@@ -57,7 +57,7 @@ public class StudentResource {
     @PutMapping("/students/update/{id}")
     private Mono<ResponseEntity<StudentDTO>> updateStudent(
             @PathVariable("id") String id,
-            @RequestBody StudentDTO studentDTO
+            @Valid @RequestBody StudentDTO studentDTO
     ) {
         return studentService
                 .updateStudent(id, studentDTO)
@@ -72,7 +72,6 @@ public class StudentResource {
     ) {
         return studentService
                 .deleteStudent(id)
-                .switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
                 .map(str -> new ResponseEntity<>("Deleted student with id: " + str, HttpStatus.OK))
                 .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.NOT_FOUND)));
     }

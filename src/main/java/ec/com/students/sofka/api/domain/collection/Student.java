@@ -17,11 +17,8 @@ public class Student {
 
     @Id
     private String id = UUID.randomUUID().toString().substring(0, 10);
-    @NotNull(message = "Identification number required")
     private String idNum;
-    @NotNull(message = "Firstname required")
     private String firstName;
-    @NotNull(message = "Lastname required")
     private String lastName;
     private Boolean blocked = false;
     private List<String> books = new ArrayList<>();
