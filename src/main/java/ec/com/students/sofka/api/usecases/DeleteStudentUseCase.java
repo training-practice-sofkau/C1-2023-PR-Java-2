@@ -1,9 +1,11 @@
 package ec.com.students.sofka.api.usecases;
 
 import ec.com.students.sofka.api.repository.StudentRepository;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import java.util.function.Function;
 
+@Service
 public class DeleteStudentUseCase implements Function<String, Mono<Void>> {
 
     private final StudentRepository studentRepository;

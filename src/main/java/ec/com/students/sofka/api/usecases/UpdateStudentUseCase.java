@@ -4,10 +4,12 @@ import ec.com.students.sofka.api.domain.collection.Student;
 import ec.com.students.sofka.api.domain.dto.StudentDTO;
 import ec.com.students.sofka.api.repository.StudentRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.util.function.BiFunction;
 
+@Service
 public class UpdateStudentUseCase implements BiFunction<String, StudentDTO, Mono<StudentDTO>> {
 
     private final StudentRepository studentRepository;
