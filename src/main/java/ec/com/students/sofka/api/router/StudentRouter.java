@@ -1,6 +1,7 @@
 package ec.com.students.sofka.api.router;
 
 import ec.com.students.sofka.api.domain.dto.StudentDTO;
+import ec.com.students.sofka.api.usecases.DeleteStudentUseCase;
 import ec.com.students.sofka.api.usecases.GetAllStudentsUseCase;
 import ec.com.students.sofka.api.usecases.GetStudentByIdUseCase;
 import ec.com.students.sofka.api.usecases.SaveStudentUseCase;
@@ -47,5 +48,18 @@ public class StudentRouter {
                                         .bodyValue(result))
                                 .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_ACCEPTABLE).build())));
     }
+
+    @Bean
+    public RouterFunction<ServerResponse> deleteStudent(DeleteStudentUseCase deleteStudentUseCase){
+        return route(DELETE("/students/{id}"),
+                request -> deleteStudentUseCase.apply(request.pathVariable("id"))
+                        .thenReturn(ServerResponse.ok()
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .bodyValue("Student with ID: "+request.pathVariable("id") +", was deleted"))
+                        .flatMap(serverResponseMono -> serverResponseMono)
+                        .onErrorResume(throwable -> ServerResponse.notFound().build()));
+    }
+
+
 
 }

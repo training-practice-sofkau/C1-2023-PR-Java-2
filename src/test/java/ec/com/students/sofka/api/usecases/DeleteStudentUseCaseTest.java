@@ -1,50 +1,50 @@
 package ec.com.students.sofka.api.usecases;
 
-import ec.com.students.sofka.api.domain.collection.Student;
-import ec.com.students.sofka.api.domain.dto.StudentDTO;
 import ec.com.students.sofka.api.repository.StudentRepository;
 import ec.com.students.sofka.api.util.InstanceProvider;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
-import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-class SaveStudentUseCaseTest {
+class DeleteStudentUseCaseTest {
+
     @Mock
     StudentRepository repoMock;
     ModelMapper mapper;
-    SaveStudentUseCase saveStudentUseCase;
+    DeleteStudentUseCase deleteStudentUseCase;
 
     @BeforeEach
     void init(){
         mapper = new ModelMapper();
-        saveStudentUseCase = new SaveStudentUseCase(repoMock, mapper);
+        deleteStudentUseCase = new DeleteStudentUseCase(repoMock, mapper);
     }
 
     @Test
-    @DisplayName("saveStudent_Success")
-    void saveBooks(){
-        var studentDTO =mapper.map(InstanceProvider.getStudent(), StudentDTO.class);
+    @DisplayName("getStudentById_Success")
+    void deleteStudent(){
+        var studentID = "ID1";
+        var student = Mono.just(InstanceProvider.getStudent());
 
-        Mockito.when(repoMock.save(mapper.map(studentDTO, Student.class)))
-                .thenAnswer(invocationOnMock -> Mono.just(invocationOnMock.getArgument(0)));
+        Mockito.when(repoMock.findById(studentID)).thenReturn(student);
+        Mockito.when(repoMock.deleteById(studentID)).thenReturn(Mono.empty());
 
-        var service = saveStudentUseCase.apply(studentDTO);
+        var service = deleteStudentUseCase.apply(studentID);
 
         StepVerifier.create(service)
-                .expectNextCount(1)
+                .expectNextCount(0)
                 .verifyComplete();
-        Mockito.verify(repoMock).save(mapper.map(studentDTO, Student.class));
+        Mockito.verify(repoMock).deleteById(studentID);
     }
 
 }
