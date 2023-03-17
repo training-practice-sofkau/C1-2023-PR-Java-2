@@ -22,5 +22,4 @@ public class DeleteStudentUseCase implements Function<String, Mono<Void>> {
                 .flatMap(student -> this.studentRepository.deleteById(student.getId()))
                 .onErrorResume(throwable -> Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())));
     }
-
 }
