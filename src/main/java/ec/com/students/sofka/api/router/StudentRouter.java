@@ -72,9 +72,9 @@ public class StudentRouter {
     public RouterFunction<ServerResponse> deleteStudent(DeleteStudentUseCase deleteStudentUseCase) {
         return route(DELETE("/students/{id}"),
                 request -> deleteStudentUseCase.apply(request.pathVariable("id"))
-                        .flatMap(studentDTO -> ServerResponse.ok()
+                        .flatMap(voidResult -> ServerResponse.status(HttpStatus.NO_CONTENT)
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .bodyValue(studentDTO)
+                                .bodyValue("Student deleted successfully")
                         )
                         .onErrorResume(error -> ServerResponse
                                 .status(HttpStatus.BAD_REQUEST)

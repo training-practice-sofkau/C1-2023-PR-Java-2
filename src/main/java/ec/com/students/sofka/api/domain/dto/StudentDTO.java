@@ -1,6 +1,7 @@
 package ec.com.students.sofka.api.domain.dto;
 
 import ec.com.students.sofka.api.domain.collection.Book;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
+@AllArgsConstructor
 public class StudentDTO {
 
     @Id
