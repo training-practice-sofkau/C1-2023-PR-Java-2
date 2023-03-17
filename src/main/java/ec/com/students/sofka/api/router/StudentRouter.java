@@ -3,9 +3,12 @@ package ec.com.students.sofka.api.router;
 import ec.com.students.sofka.api.domain.dto.StudentDTO;
 import ec.com.students.sofka.api.usecases.GetAllStudentsUseCase;
 import ec.com.students.sofka.api.usecases.GetStudentByIdUseCase;
+import ec.com.students.sofka.api.usecases.SaveStudentUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
@@ -33,6 +36,19 @@ public class StudentRouter {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .bodyValue(studentDTO))
                         .onErrorResume(throwable -> ServerResponse.notFound().build()));
+    }
+
+    @Bean
+    //@Validated
+    public RouterFunction<ServerResponse> saveStudent(SaveStudentUseCase saveStudentUseCase){
+        return route(POST("/students").and(accept(MediaType.APPLICATION_JSON)),
+                request -> request.bodyToMono(StudentDTO.class)
+                        .flatMap(studentDTO -> saveStudentUseCase.save(studentDTO)
+                                .flatMap(result -> ServerResponse.status(201)
+                                        .contentType(MediaType.APPLICATION_JSON)
+                                        .bodyValue(result))
+                                .onErrorResume(throwable -> ServerResponse.status(HttpStatus.BAD_REQUEST).build())
+                        ));
     }
 
 }
