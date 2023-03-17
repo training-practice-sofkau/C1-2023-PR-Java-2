@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
 
-@RestController
+//@RestController
 @AllArgsConstructor
 public class StudentResource {
 

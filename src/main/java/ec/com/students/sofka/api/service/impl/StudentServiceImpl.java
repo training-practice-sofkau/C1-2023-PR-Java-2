@@ -5,13 +5,15 @@ import ec.com.students.sofka.api.domain.dto.StudentDTO;
 import ec.com.students.sofka.api.repository.IStudentRepository;
 import ec.com.students.sofka.api.service.IStudentService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-@Service
+//@Service
 @AllArgsConstructor
+@Slf4j
 public class StudentServiceImpl implements IStudentService {
 
     private final IStudentRepository studentRepository;
