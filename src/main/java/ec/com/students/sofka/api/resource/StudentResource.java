@@ -13,7 +13,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 
-@RestController
+//@RestController
 @AllArgsConstructor
 @RequestMapping("/students")
 public class StudentResource {
