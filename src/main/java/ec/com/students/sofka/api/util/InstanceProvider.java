@@ -17,4 +17,8 @@ public class InstanceProvider {
     public static Student getStudent(){
         return new Student("ID1", "IdNum1", "Wout", "Van Aert", false, List.of("Book1"));
     }
+
+    public static Student getStudentToUpdate(){
+        return new Student("ID2", "IdNum1", "Mateo", "Van Aert", false, List.of("Book1"));
+    }
 }
