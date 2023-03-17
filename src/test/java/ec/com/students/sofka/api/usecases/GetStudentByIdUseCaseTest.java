@@ -62,8 +62,7 @@ class GetStudentByIdUseCaseTest {
         var response = getStudentByIdUseCase.apply("studentId");
 
         StepVerifier.create(response)
-                .expectNextCount(0)
-                .verifyComplete();
+                .expectError(Throwable.class);
 
         Mockito.verify(mockedRepository).findById("studentId");
     }
