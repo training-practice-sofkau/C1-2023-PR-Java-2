@@ -12,6 +12,14 @@ import java.util.UUID;
 @NoArgsConstructor
 @Document(collection = "students")
 public class Student {
+
+    public Student(String idNum, String name, String lastName, Boolean blocked) {
+        this.idNum = idNum;
+        this.name = name;
+        this.lastName = lastName;
+        this.blocked = blocked;
+    }
+
     @Id
     private String id = UUID.randomUUID().toString().substring(1, 10);
     @NotNull(message = "Id num can't be blank")
