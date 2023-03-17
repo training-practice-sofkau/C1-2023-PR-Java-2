@@ -24,6 +24,7 @@ public class UpdateStudentUseCase implements BiFunction<String, StudentDTO, Mono
                 .flatMap(student -> {
                     studentDTO.setId(student.getId());
                     return studentRepository.save(modelMapper.map(studentDTO, Student.class));
-                }).map(student -> modelMapper.map(student, StudentDTO.class));
+                }).map(student -> modelMapper.map(student, StudentDTO.class))
+                .onErrorResume(throwable -> Mono.error(throwable));
     }
 }
