@@ -3,6 +3,7 @@ package ec.com.students.sofka.api.usecases;
 import ec.com.students.sofka.api.domain.collection.Student;
 import ec.com.students.sofka.api.repository.IStudentRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -48,6 +49,21 @@ class DeleteStudentUseCaseTest {
                 .verifyComplete();
 
         Mockito.verify(repository).delete(ArgumentMatchers.any(Student.class));
+    }
+
+    @Test
+    @DisplayName("deleteStudent_Fail")
+    void deleteStudent_Fail(){
+
+        Mockito.when(repository.findById(ArgumentMatchers.anyString())).thenReturn(Mono.empty());
+
+        var response = deleteStudentUseCase.delete("");
+
+        StepVerifier.create(response)
+                .expectError(Throwable.class);
+
+        Mockito.verify(repository).findById("");
+
     }
 
 }
