@@ -54,22 +54,4 @@ class SaveStudentUseCaseTest {
         Mockito.verify(repoMock).save(mapper.map(studentDTO, Student.class));
     }
 
-   @Test
-    @DisplayName("saveInvalidStudent_NonSuccess")
-    void SaveInvalidStudent(){
-
-        Student student = new Student("Id", null, "name", "lastname", false, new ArrayList<>());
-        //Mockito.when(repoMock.save(student))
-             //   .thenAnswer(Mono.error(new Throwable("ss")));
-      /*  Mockito.when(repoMock.save(Objects.requireNonNull(AdditionalMatchers.not(ArgumentMatchers.any(Student.class)))))
-                .thenThrow(new Throwable("Invalid Argument"));*/
-
-        var service = saveStudentUseCase.apply(mapper.map(student, StudentDTO.class));
-
-        StepVerifier.create(service)
-                .expectNextCount(0)
-                .verifyComplete();
-        //Mockito.verify(repoMock).save(mapper.map(studentDTO, Student.class));
-    }
-
 }

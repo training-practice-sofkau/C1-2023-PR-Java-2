@@ -72,7 +72,6 @@ class UpdateStudentUseCaseTest {
         Mockito.verify(repoMock).findById(studentID);
 
         //Mockito.verify(repoMock).save(ArgumentMatchers.any(Student.class));
-
     }
 
 }
