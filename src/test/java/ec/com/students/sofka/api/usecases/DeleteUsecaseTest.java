@@ -33,8 +33,9 @@ class DeleteUsecaseTest {
         student.setIdNumber("Test id");
         student.setName("Test name");
         student.setLastName("Test last name");
+        student.setStudentID("Test student");
 
-        Mockito.when(repository.findById("Test id")).
+        Mockito.when(repository.findById("Test student")).
                 thenAnswer(InvocationOnMock -> {
                     return Mono.just(student);
                 });
@@ -43,14 +44,14 @@ class DeleteUsecaseTest {
                     return Mono.just(Void.TYPE);
                 });
 
-        Mono<String> response = deleteUsecase.apply("Test id");
+        Mono<String> response = deleteUsecase.apply("Test student");
 
         StepVerifier.create(response)
                 .expectNextCount(1)
                 .verifyComplete();
 
         Mockito.verify(repository).delete(student);
-        Mockito.verify(repository).findById("1");
+        Mockito.verify(repository).findById("Test student");
     }
 
 }
