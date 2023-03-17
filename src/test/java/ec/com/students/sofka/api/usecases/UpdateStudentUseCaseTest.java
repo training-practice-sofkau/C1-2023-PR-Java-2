@@ -4,6 +4,7 @@ import ec.com.students.sofka.api.domain.collection.Student;
 import ec.com.students.sofka.api.domain.dto.StudentDTO;
 import ec.com.students.sofka.api.repository.IStudentRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -31,6 +32,7 @@ class UpdateStudentUseCaseTest {
     }
 
     @Test
+    @DisplayName("updateStudent_Success")
     void updateStudent() {
 
         var student = new Student("StudentId",

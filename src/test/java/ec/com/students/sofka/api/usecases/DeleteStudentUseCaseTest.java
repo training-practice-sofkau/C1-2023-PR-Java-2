@@ -3,6 +3,7 @@ package ec.com.students.sofka.api.usecases;
 import ec.com.students.sofka.api.domain.collection.Student;
 import ec.com.students.sofka.api.repository.IStudentRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -30,6 +31,7 @@ class DeleteStudentUseCaseTest {
     }
 
     @Test
+    @DisplayName("deleteStudent_Success")
     void deleteStudent() {
 
         var student = Mono.just(new Student("StudentId",
