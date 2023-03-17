@@ -14,13 +14,13 @@ import java.util.function.Supplier;
 public class GetAllStudentsUseCase implements Supplier<Flux<StudentDTO>> {
 
     private final IStudentRepository studentRepository;
-    private final ModelMapper mapper;
+    private final ModelMapper modelMapper;
 
     @Override
     public Flux<StudentDTO> get() {
         return this.studentRepository
                 .findAll()
                 .switchIfEmpty(Flux.empty())
-                .map(book -> mapper.map(book, StudentDTO.class));
+                .map(book -> modelMapper.map(book, StudentDTO.class));
     }
 }
