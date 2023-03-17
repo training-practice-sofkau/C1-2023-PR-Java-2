@@ -23,4 +23,10 @@ public class Student {
     private boolean isBlocked=false;
     private List<String> books = new ArrayList<String>();
 
+    public Student (String idNum,String name,String lastName){
+        this.idNum = idNum;
+        this.name = name;
+        this.lastName = lastName;
+    }
+
 }
