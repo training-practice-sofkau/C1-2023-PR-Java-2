@@ -19,7 +19,7 @@ import java.util.UUID;
 @Document(collection = "students")
 public class Student {
     @Id
-    private String id = UUID.randomUUID().toString().substring(0, 10);
+    private String id;
 
     @NonNull
 
@@ -34,7 +34,15 @@ public class Student {
 
     private Boolean blocked = false;
 
-   // private List<Book> books = new ArrayList<>();
+    public Student(@NonNull String idNum, @NonNull String name, @NonNull String lastName) {
+        this.id = UUID.randomUUID().toString().substring(0, 10);;
+        this.idNum = idNum;
+        this.name = name;
+        this.lastName = lastName;
+        this.blocked  = false;
+    }
 
-
+    public void setId(String id) {
+        this.id = id;
+    }
 }

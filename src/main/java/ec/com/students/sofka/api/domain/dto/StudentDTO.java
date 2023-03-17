@@ -22,6 +22,9 @@ public class StudentDTO {
 
     private Boolean blocked;
 
-    //private List<String> books;
-
+    public StudentDTO(String idNum, String name, String lastName) {
+        this.idNum = idNum;
+        this.name = name;
+        this.lastName = lastName;
+    }
 }
