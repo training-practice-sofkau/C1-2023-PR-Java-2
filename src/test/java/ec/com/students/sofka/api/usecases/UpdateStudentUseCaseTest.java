@@ -35,7 +35,7 @@ class UpdateStudentUseCaseTest {
     @DisplayName("updateStudent_Success")
     void updateStudent() {
 
-        var student = new Student("StudentId",
+        var student = new Student("studentId",
                         "123456",
                         "John",
                         "Lincoln",
@@ -43,24 +43,17 @@ class UpdateStudentUseCaseTest {
                         List.of("Atomic Habits")
         );
 
-        var updatedStudent = new Student("StudentId",
-                "326859",
-                "Thomas",
-                "Lincoln",
-                false,
-                List.of("Arabian Nights")
-        );
+        Mockito.when(mockedRepository.findById("studentId")).thenReturn(Mono.just(student));
 
-        Mockito.when(mockedRepository.findById(ArgumentMatchers.anyString())).thenReturn(Mono.just(student));
-
-        Mockito.when(mockedRepository.save(ArgumentMatchers.any(Student.class))).thenReturn(Mono.just(updatedStudent));
+        Mockito.when(mockedRepository.save(ArgumentMatchers.any(Student.class))).thenReturn(Mono.just(student));
 
         var response = updateStudentUseCase.apply("studentId",
-                modelMapper.map(updatedStudent, StudentDTO.class)
+                modelMapper.map(student, StudentDTO.class)
         );
 
         StepVerifier.create(response)
-                .expectNextCount(1)
+                .expectNext(modelMapper.map(student, StudentDTO.class))
+                .expectNextCount(0)
                 .verifyComplete();
 
         Mockito.verify(mockedRepository).findById(ArgumentMatchers.anyString());
