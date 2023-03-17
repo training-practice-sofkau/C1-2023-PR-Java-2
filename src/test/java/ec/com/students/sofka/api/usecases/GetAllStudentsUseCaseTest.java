@@ -32,8 +32,8 @@ class GetAllStudentsUseCaseTest {
     }
 
     @Test
-    @DisplayName("getAllBooks_Success")
-    void getAllBooks() {
+    @DisplayName("getAllStudents_Success")
+    void getAllStudents() {
         //Build the scenario you need
         var fluxStudents = Flux.just(new Student("1", "title1", "lastname1"), new Student("2", "title2", "lastname2"));
 

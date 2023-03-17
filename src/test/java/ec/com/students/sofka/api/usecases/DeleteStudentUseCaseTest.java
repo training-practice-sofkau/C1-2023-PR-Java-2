@@ -51,8 +51,8 @@ class DeleteStudentUseCaseTest {
     }
 
     @Test
-    @DisplayName("testDeleteBookNotFound")
-    public void testDeleteBookNotFound() {
+    @DisplayName("testDeleteStudentNotFound")
+    public void testDeleteStudentNotFound() {
         String id = "6413683efa74e77204d881f0";
         when(repoMock.findById(id)).thenReturn(Mono.empty());
 

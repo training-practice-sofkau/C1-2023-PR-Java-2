@@ -39,8 +39,8 @@ class UpdateStudentUseCaseTest {
     }
 
     @Test
-    @DisplayName("updateBook_successfully")
-    void updateBook() {
+    @DisplayName("updateStudent_successfully")
+    void updateStudent() {
         //Build the scenario you need
         String id = "6413683efa74e77204d881f0";
         Student newStudent = new Student("1", "name1", "lastname1");
@@ -66,8 +66,8 @@ class UpdateStudentUseCaseTest {
     }
 
     @Test
-    @DisplayName("testUpdateBookError")
-    public void testUpdateBookError() {
+    @DisplayName("testUpdateStudentError")
+    public void testUpdateStudentError() {
         String id = "6413683efa74e77204d881f0";
         Student newStudent = new Student("1", "name1", "lastname1");
         newStudent.setId(id);

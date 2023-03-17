@@ -15,7 +15,7 @@ import static org.springframework.web.reactive.function.server.RequestPredicates
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
 @Configuration
-public class BookRouter {
+public class StudentRouter {
     @Bean
     public RouterFunction<ServerResponse> getAllStudents(GetAllStudentsUseCase getAllStudentsUseCase){
         return route(GET("/students"),
@@ -52,7 +52,7 @@ public class BookRouter {
 
     @Bean
     public RouterFunction<ServerResponse> updateBook(UpdateStudentUseCase updateStudentUseCase){
-        return route(PUT("/books/{id}").and(accept(MediaType.APPLICATION_JSON)),
+        return route(PUT("/students/{id}").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(StudentDTO.class)
                         .switchIfEmpty(Mono.error(new Throwable()))
                         .flatMap(studentDTO -> updateStudentUseCase.update(request.pathVariable("id"), studentDTO))
@@ -64,11 +64,11 @@ public class BookRouter {
 
     @Bean
     public RouterFunction<ServerResponse> deleteBook(DeleteStudentUseCase deleteStudentUseCase){
-        return route(DELETE("/books/{id}"),
+        return route(DELETE("/students/{id}"),
                 request -> deleteStudentUseCase.apply(request.pathVariable("id"))
                         .flatMap(string -> ServerResponse.ok()
                                 .contentType(MediaType.APPLICATION_JSON)
-                                .bodyValue("The book with the fabulous id: " + string + " was deleted"))
+                                .bodyValue("The student with the fabulous id: " + string + " was deleted"))
                         .onErrorResume(throwable -> ServerResponse.notFound().build()));
     }
 

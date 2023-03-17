@@ -65,8 +65,8 @@ class GetStudentByIdUseCaseTest {
     }
 
     @Test
-    @DisplayName("testBookNotFound")
-    public void testBookNotFound() {
+    @DisplayName("testStudentNotFound")
+    public void testStudentNotFound() {
         String id = "6413683efa74e77204d881f0";
         when(repoMock.findById(id)).thenReturn(Mono.empty());
 
