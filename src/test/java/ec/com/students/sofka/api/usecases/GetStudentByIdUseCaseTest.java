@@ -45,4 +45,19 @@ class GetStudentByIdUseCaseTest {
                 .verifyComplete();
         Mockito.verify(repoMock).findById(studentID);
     }
+
+    @Test
+    @DisplayName("getStudentById_NonSuccess")
+    void getStudentByNonExistingID(){
+        var studentID = "ID1";
+
+        Mockito.when(repoMock.findById(studentID)).thenReturn(Mono.empty());
+
+        var service = getStudentByIdUseCase.apply(studentID);
+
+        StepVerifier.create(service)
+                .expectNextCount(0)
+                .verifyComplete();
+        Mockito.verify(repoMock).findById(studentID);
+    }
 }

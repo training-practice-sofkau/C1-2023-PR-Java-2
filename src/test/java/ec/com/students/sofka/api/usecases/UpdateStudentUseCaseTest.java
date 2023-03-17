@@ -54,4 +54,25 @@ class UpdateStudentUseCaseTest {
         Mockito.verify(repoMock).save(ArgumentMatchers.any(Student.class));
     }
 
+    @Test
+    @DisplayName("updateStudentById_NonSuccess")
+    void updateStudentByNonExistingID(){
+        var studentID = "ID1";
+        var newStudentStudent = InstanceProvider.getStudentToUpdate();
+        var newStudent = Mono.just(InstanceProvider.getStudentToUpdate());
+
+        Mockito.when(repoMock.findById(studentID)).thenReturn(Mono.empty());
+
+        var service = updateStudentUseCase.apply(studentID,
+                mapper.map(newStudentStudent, StudentDTO.class));
+
+        StepVerifier.create(service)
+                .expectNextCount(0)
+                .verifyComplete();
+        Mockito.verify(repoMock).findById(studentID);
+
+        //Mockito.verify(repoMock).save(ArgumentMatchers.any(Student.class));
+
+    }
+
 }

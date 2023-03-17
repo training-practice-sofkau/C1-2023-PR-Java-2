@@ -22,6 +22,7 @@ public class SaveStudentUseCase implements Function<StudentDTO, Mono<StudentDTO>
         studentDTO.setBlocked(false);
         return this.studentRepository
                 .save(mapper.map(studentDTO, Student.class))
-                .map(student -> mapper.map(student, StudentDTO.class));
+                .map(student -> mapper.map(student, StudentDTO.class))
+                .onErrorResume(throwable -> Mono.error(throwable));
     }
 }
