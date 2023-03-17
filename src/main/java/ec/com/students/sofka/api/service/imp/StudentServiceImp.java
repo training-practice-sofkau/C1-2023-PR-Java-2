@@ -16,10 +16,10 @@ public class StudentServiceImp implements IStudentService {
     private final IStudentRepository studentRepository;
     private final ModelMapper mapper;
 
-    @Override
-    public Mono<StudentDTO> saveStudent(StudentDTO studentDTO) {
-        return this.studentRepository.save(toEntity(studentDTO)).map(this::toDto);
-    }
+//    @Override
+//    public Mono<StudentDTO> saveStudent(StudentDTO studentDTO) {
+//        return this.studentRepository.save(toEntity(studentDTO)).map(this::toDto);
+//    }
 
     @Override
     public Flux<StudentDTO> getAllStudents() {
@@ -37,16 +37,16 @@ public class StudentServiceImp implements IStudentService {
                 .map(this::toDto);
     }
 
-    @Override
-    public Mono<StudentDTO> updateStudent(String id, StudentDTO studentDTO) {
-        return this.studentRepository
-                .findById(id)
-                .switchIfEmpty(Mono.empty())
-                .flatMap(student -> {
-                    studentDTO.setId(student.getId());
-                    return this.saveStudent(studentDTO);
-                });
-    }
+//    @Override
+//    public Mono<StudentDTO> updateStudent(String id, StudentDTO studentDTO) {
+//        return this.studentRepository
+//                .findById(id)
+//                .switchIfEmpty(Mono.empty())
+//                .flatMap(student -> {
+//                    studentDTO.setId(student.getId());
+//                    return this.saveStudent(studentDTO);
+//                });
+//    }
 
     @Override
     public Mono<Void> deleteStudent(String id) {
