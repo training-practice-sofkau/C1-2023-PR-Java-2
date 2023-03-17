@@ -59,4 +59,26 @@ class UpdateStudentUseCaseTest {
         Mockito.verify(mockedRepository).findById(ArgumentMatchers.anyString());
         Mockito.verify(mockedRepository).save(ArgumentMatchers.any(Student.class));
     }
+
+    @Test
+    @DisplayName("updateStudent_NonSuccess")
+    void updateInvalidStudent() {
+
+        var student = new Student("StudentId",
+                "123456",
+                "John",
+                "Lincoln",
+                true,
+                List.of("Atomic Habits")
+        );
+
+        Mockito.when(mockedRepository.findById(ArgumentMatchers.anyString())).thenReturn(Mono.empty());
+
+        var response = updateStudentUseCase.apply("",modelMapper.map(student, StudentDTO.class));
+
+        StepVerifier.create(response)
+                .expectError(Throwable.class);
+
+        Mockito.verify(mockedRepository).findById(ArgumentMatchers.anyString());
+    }
 }
