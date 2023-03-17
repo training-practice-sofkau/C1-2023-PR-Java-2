@@ -20,11 +20,12 @@ public class UpdateStudentUseCase implements UpdateStudent {
     @Override
     public Mono<StudentDTO> update(String id, StudentDTO studentDTO) {
         return studentRepository.findById(id)
-                //.switchIfEmpty(Mono.error(new Throwable("Student not found")))
+                .switchIfEmpty(Mono.error(new Throwable("Student not found")))
                 .flatMap(student -> {
                     studentDTO.setId(student.getId());
                     return studentRepository.save(mapper.map(studentDTO, Student.class))
                             .map(s ->mapper.map(s, StudentDTO.class));
-                });
+                })
+                .onErrorResume(throwable -> Mono.error(throwable));
     }
 }

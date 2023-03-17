@@ -4,6 +4,7 @@ import ec.com.students.sofka.api.domain.collection.Student;
 import ec.com.students.sofka.api.domain.dto.StudentDTO;
 import ec.com.students.sofka.api.repository.IStudentRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -61,6 +62,27 @@ class UpdateStudentUseCaseTest {
 
         Mockito.verify(repository).findById(ArgumentMatchers.anyString());
         Mockito.verify(repository).save(ArgumentMatchers.any(Student.class));
+
+    }
+
+    @Test
+    @DisplayName("updateStudentInvalidId_Fail")
+    void updateStudentInvalidId_Fail() {
+
+        var student = new Student(
+                "123456",
+                "Peter",
+                "Parker"
+        );
+
+        Mockito.when(repository.findById(ArgumentMatchers.anyString())).thenReturn(Mono.empty());
+
+        var response = updateStudentUseCase.update("",mapper.map(student, StudentDTO.class));
+
+        StepVerifier.create(response)
+                .expectError(Throwable.class);
+
+        Mockito.verify(repository).findById(ArgumentMatchers.anyString());
 
     }
 
