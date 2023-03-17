@@ -43,17 +43,9 @@ class SaveStudentUseCaseTest {
                 List.of("Atomic Habits")
         );
 
-        var studentDTO = new StudentDTO("StudentId",
-                "123456",
-                "John",
-                "Lincoln",
-                true,
-                List.of("Atomic Habits")
-        );
-
         Mockito.when(mockedRepository.save(ArgumentMatchers.any(Student.class))).thenReturn(Mono.just(student));
 
-        var response = saveStudentUseCase.apply(studentDTO);
+        var response = saveStudentUseCase.apply(modelMapper.map(student, StudentDTO.class));
 
         StepVerifier.create(response)
                 .expectNextCount(1)
