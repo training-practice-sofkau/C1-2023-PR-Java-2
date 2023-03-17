@@ -1,10 +1,7 @@
 package ec.com.students.sofka.api.router;
 
 import ec.com.students.sofka.api.domain.dto.StudentDTO;
-import ec.com.students.sofka.api.usecases.GetAllStudentsUseCase;
-import ec.com.students.sofka.api.usecases.GetStudentByIdUseCase;
-import ec.com.students.sofka.api.usecases.SaveStudentUseCase;
-import ec.com.students.sofka.api.usecases.UpdateStudentUseCase;
+import ec.com.students.sofka.api.usecases.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -63,6 +60,18 @@ public class StudentRouter {
                                         .bodyValue(result))
                                 .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).build())
                         ));
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> deleteStudent(DeleteStudentByIdUseCase deleteStudentByIdUseCase){
+        return route(DELETE("/students/{id}"),
+                request -> deleteStudentByIdUseCase.apply(request.pathVariable("id"))
+                        .thenReturn(ServerResponse.ok()
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .bodyValue("student deleted"))
+                        .flatMap(serverResponseMono -> serverResponseMono)
+                        .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).build())
+                );
     }
 
 }
