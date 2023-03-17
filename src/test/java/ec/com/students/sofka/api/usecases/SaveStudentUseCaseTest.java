@@ -53,4 +53,27 @@ class SaveStudentUseCaseTest {
 
         Mockito.verify(mockedRepository).save(ArgumentMatchers.any(Student.class));
     }
+
+    @Test
+    @DisplayName("saveStudent_NonSuccess")
+    void saveStudentFailed(){
+
+        var student = new Student("StudentId",
+                "123456",
+                "John",
+                "Lincoln",
+                true,
+                List.of("Atomic Habits")
+        );
+
+        Mockito.when(mockedRepository.save(ArgumentMatchers.any(Student.class))).thenReturn(Mono.empty());
+
+        var response = saveStudentUseCase.apply(modelMapper.map(student, StudentDTO.class));
+
+        StepVerifier.create(response)
+                .expectError(Throwable.class);
+
+        Mockito.verify(mockedRepository).save(ArgumentMatchers.any(Student.class));
+
+    }
 }
