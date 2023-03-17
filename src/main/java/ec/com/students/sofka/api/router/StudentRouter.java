@@ -4,6 +4,7 @@ import ec.com.students.sofka.api.domain.dto.StudentDTO;
 import ec.com.students.sofka.api.usecases.GetAllStudentsUseCase;
 import ec.com.students.sofka.api.usecases.GetStudentByIdUseCase;
 import ec.com.students.sofka.api.usecases.SaveStudentUseCase;
+import ec.com.students.sofka.api.usecases.UpdateStudentUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -28,7 +29,7 @@ public class StudentRouter {
     }
 
     @Bean
-    public RouterFunction<ServerResponse> getBookById(GetStudentByIdUseCase getStudentByIdUseCase){
+    public RouterFunction<ServerResponse> getStudentById(GetStudentByIdUseCase getStudentByIdUseCase){
         return route(GET("/students/{id}"),
                 request -> getStudentByIdUseCase.apply(request.pathVariable("id"))
                         .flatMap(studentDTO -> ServerResponse.ok()
@@ -38,8 +39,8 @@ public class StudentRouter {
     }
 
     @Bean
-    public RouterFunction<ServerResponse> saveBook(SaveStudentUseCase saveStudentUseCase){
-        return route(POST("/books").and(accept(MediaType.APPLICATION_JSON)),
+    public RouterFunction<ServerResponse> saveStudent(SaveStudentUseCase saveStudentUseCase){
+        return route(POST("/students").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(StudentDTO.class)
                         .flatMap(studentDTO -> saveStudentUseCase.save(studentDTO)
                                 .flatMap(result -> ServerResponse.status(201)
@@ -47,5 +48,17 @@ public class StudentRouter {
                                         .bodyValue(result))
 
                                 .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_ACCEPTABLE).build())));
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> updateStudent(UpdateStudentUseCase updateStudentUseCase){
+        return route(PUT("/students/{id}").and(accept(MediaType.APPLICATION_JSON)),
+                request -> request.bodyToMono(StudentDTO.class)
+                        .flatMap(studentDTO -> updateStudentUseCase.update(request.pathVariable("id"),studentDTO)
+                                .flatMap(result -> ServerResponse.status(200)
+                                        .contentType(MediaType.APPLICATION_JSON)
+                                        .bodyValue(result))
+
+                                .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).build())));
     }
 }
