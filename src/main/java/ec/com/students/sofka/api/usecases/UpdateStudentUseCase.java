@@ -22,12 +22,9 @@ public class UpdateStudentUseCase implements BiFunction<String, StudentDTO, Mono
         return this.studentRepository
                 .findById(ID)
                 .switchIfEmpty(Mono.empty())
-                .map(student ->{
+                .flatMap(student ->{
                     studentDTO.setId(student.getId());
-                    return mapper.map(
-                            studentRepository
-                                    .save(mapper.map(studentDTO, Student.class)),
-                            StudentDTO.class);
-                });
+                    return studentRepository.save(mapper.map(studentDTO, Student.class));
+                }).map(student -> mapper.map(student, StudentDTO.class));
     }
 }

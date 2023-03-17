@@ -54,6 +54,7 @@ public class StudentRouter {
         return route(PUT("/students/{id}").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(StudentDTO.class)
                         .flatMap(studentDTO -> updateStudentUseCase.apply(request.pathVariable("id"), studentDTO)
+                                .switchIfEmpty(Mono.error(new Throwable(HttpStatus.NO_CONTENT.toString())))
                                 .flatMap(result -> ServerResponse.status(201)
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .bodyValue(result))
