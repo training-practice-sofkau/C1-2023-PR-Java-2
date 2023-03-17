@@ -32,7 +32,7 @@ public class StudentRouter {
                         .flatMap(studentDTO -> ServerResponse.ok()
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .bodyValue(studentDTO))
-                        .onErrorResume(throwable -> ServerResponse.notFound().build()));
+                        .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).bodyValue(throwable.getMessage())));
     }
 
     @Bean
@@ -44,7 +44,7 @@ public class StudentRouter {
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .bodyValue(result))
 
-                                .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_ACCEPTABLE).build())));
+                                .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_ACCEPTABLE).bodyValue(throwable.getMessage()))));
     }
 
     @Bean
@@ -56,7 +56,7 @@ public class StudentRouter {
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .bodyValue(result))
 
-                                .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).build())));
+                                .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).bodyValue(throwable.getMessage()))));
     }
 
     @Bean
@@ -67,6 +67,6 @@ public class StudentRouter {
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .bodyValue(result))
 
-                        .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).build()));
+                        .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).bodyValue(throwable.getMessage())));
     }
 }
