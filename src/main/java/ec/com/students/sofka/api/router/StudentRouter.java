@@ -4,6 +4,7 @@ import ec.com.students.sofka.api.domain.dto.StudentDTO;
 import ec.com.students.sofka.api.usecases.GetAllStudentsUseCase;
 import ec.com.students.sofka.api.usecases.GetStudentByIdUseCase;
 import ec.com.students.sofka.api.usecases.SaveStudentUseCase;
+import ec.com.students.sofka.api.usecases.UpdateStudentUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpStatus;
@@ -48,6 +49,19 @@ public class StudentRouter {
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .bodyValue(result))
                                 .onErrorResume(throwable -> ServerResponse.status(HttpStatus.BAD_REQUEST).build())
+                        ));
+    }
+
+    @Bean
+    public RouterFunction<ServerResponse> updateStudent(UpdateStudentUseCase updateStudentUseCase){
+        return route(PUT("/students/{id}").and(accept(MediaType.APPLICATION_JSON)),
+                request -> request.bodyToMono(StudentDTO.class)
+                        .flatMap(studentDTO -> updateStudentUseCase.update(request.pathVariable("id"),
+                                        studentDTO)
+                                .flatMap(result -> ServerResponse.status(201)
+                                        .contentType(MediaType.APPLICATION_JSON)
+                                        .bodyValue(result))
+                                .onErrorResume(throwable -> ServerResponse.status(HttpStatus.NOT_FOUND).build())
                         ));
     }
 
