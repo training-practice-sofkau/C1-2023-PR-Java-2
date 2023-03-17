@@ -63,8 +63,6 @@ class GetAllStudentsUseCaseTest {
                 .verify();
 
         Mockito.verify(repository).findAll();
-
-
     }
 
 }
