@@ -3,6 +3,7 @@ package ec.com.students.sofka.api.usecases;
 import ec.com.students.sofka.api.domain.collection.Student;
 import ec.com.students.sofka.api.repository.IStudentRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -32,6 +33,7 @@ class GetStudentByIdUseCaseTest {
     }
 
     @Test
+    @DisplayName("getStudentById_Success")
     void getStudentById(){
 
         var student = Mono.just(new Student(
@@ -51,5 +53,21 @@ class GetStudentByIdUseCaseTest {
         Mockito.verify(repository).findById("");
 
     }
+
+    @Test
+    @DisplayName("getStudentById_fail")
+    void getStudentByIdNotValid(){
+
+        Mockito.when(repository.findById(ArgumentMatchers.anyString())).thenReturn(Mono.empty());
+
+        var response = getStudentByIdUseCase.apply("");
+
+        StepVerifier.create(response)
+                .expectError(Throwable.class);
+
+        Mockito.verify(repository).findById("");
+
+    }
+
 
 }
