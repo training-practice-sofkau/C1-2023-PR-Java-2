@@ -21,6 +21,7 @@ public class SaveStudentUseCase implements SaveStudent {
     public Mono<StudentDTO> save(StudentDTO studentDTO) {
         return studentRepository.save(mapper.map(studentDTO, Student.class))
                 .switchIfEmpty(Mono.empty())
-                .map(student -> mapper.map(student, StudentDTO.class));
+                .map(student -> mapper.map(student, StudentDTO.class))
+                .onErrorResume(Mono::error);
     }
 }
