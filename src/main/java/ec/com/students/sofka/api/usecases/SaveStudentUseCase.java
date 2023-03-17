@@ -21,6 +21,7 @@ public class SaveStudentUseCase implements Function<StudentDTO, Mono<StudentDTO>
     public Mono<StudentDTO> apply(StudentDTO studentDTO) {
         return this.studentRepository.save(modelMapper.map(studentDTO, Student.class))
                 .switchIfEmpty(Mono.empty())
-                .map(student -> modelMapper.map(student, StudentDTO.class));
+                .map(student -> modelMapper.map(student, StudentDTO.class))
+                .onErrorResume(throwable -> Mono.error(throwable));
     }
 }
