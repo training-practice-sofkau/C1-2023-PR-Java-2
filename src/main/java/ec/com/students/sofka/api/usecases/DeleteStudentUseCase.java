@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 @Service
@@ -16,7 +15,6 @@ public class DeleteStudentUseCase implements Function<String, Mono<Void>> {
 
     private final StudentRepository studentRepository;
     private final ModelMapper mapper;
-
 
     @Override
     public Mono<Void> apply(String ID) {
