@@ -52,4 +52,19 @@ class GetStudentByIdUseCaseTest {
 
         Mockito.verify(mockedRepository).findById("studentId");
     }
+
+    @Test
+    @DisplayName("getStudentByWrongId_NonSuccess")
+    void getStudentByWrongId() {
+
+        Mockito.when(mockedRepository.findById(ArgumentMatchers.anyString())).thenReturn(Mono.empty());
+
+        var response = getStudentByIdUseCase.apply("studentId");
+
+        StepVerifier.create(response)
+                .expectNextCount(0)
+                .verifyComplete();
+
+        Mockito.verify(mockedRepository).findById("studentId");
+    }
 }
