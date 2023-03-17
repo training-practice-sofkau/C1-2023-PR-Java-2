@@ -3,6 +3,7 @@ package ec.com.students.sofka.api.resource;
 import ec.com.students.sofka.api.domain.collection.Student;
 import ec.com.students.sofka.api.domain.dto.StudentDTO;
 import ec.com.students.sofka.api.service.impl.StudentServiceImpl;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Value;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import javax.validation.Valid;
 
 @RestController
 @AllArgsConstructor

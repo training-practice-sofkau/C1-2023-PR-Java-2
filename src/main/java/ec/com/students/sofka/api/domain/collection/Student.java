@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.UUID;
 
@@ -17,13 +16,13 @@ public class Student {
     @Id
     private String id = UUID.randomUUID().toString().substring(0, 10);
 
-    @NotNull(message = "idNum can't be null")
+    //@NotNull(message = "idNum can't be null")
     private String idNum;
 
-    @NotNull(message = "name can't be null")
+    //@NotNull(message = "name can't be null")
     private String name;
 
-    @NotNull(message = "lastName can't be null")
+    //@NotNull(message = "lastName can't be null")
     private String lastName;
 
     private Boolean blocked = false;
