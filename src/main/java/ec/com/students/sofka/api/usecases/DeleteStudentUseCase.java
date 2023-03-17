@@ -19,6 +19,7 @@ public class DeleteStudentUseCase implements IDeleteStudent {
         return studentRepository
                 .findById(id)
                 .switchIfEmpty(Mono.error(new RuntimeException("Student not found")))
-                .flatMap(student -> studentRepository.deleteById(student.getId()));
+                .flatMap(student -> studentRepository.deleteById(student.getId()))
+                .onErrorResume(error -> Mono.error(new RuntimeException("Student not found")));
     }
 }
