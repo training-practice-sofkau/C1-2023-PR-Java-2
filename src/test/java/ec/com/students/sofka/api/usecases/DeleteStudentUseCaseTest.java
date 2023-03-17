@@ -55,4 +55,19 @@ class DeleteStudentUseCaseTest {
 
         Mockito.verify(mockedRepository).deleteById(ArgumentMatchers.anyString());
     }
+
+    @Test
+    @DisplayName("deleteInvalidStudent_NonSuccess")
+    void deleteInvalidStudent(){
+
+        Mockito.when(mockedRepository.findById(ArgumentMatchers.anyString())).thenReturn(Mono.empty());
+
+        var response = deleteStudentUseCase.apply("");
+
+        StepVerifier.create(response)
+                .expectError(Throwable.class);
+
+        Mockito.verify(mockedRepository).findById("");
+
+    }
 }
