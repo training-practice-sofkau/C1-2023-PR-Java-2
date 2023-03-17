@@ -34,7 +34,7 @@ class GetStudentByIdUseCaseTest {
     @DisplayName("getStudentById_Success")
     void getStudentById() {
 
-        var student = Mono.just(new Student("StudentId",
+        var student = Mono.just(new Student("studentId",
                 "123456",
                 "John",
                 "Lincoln",
