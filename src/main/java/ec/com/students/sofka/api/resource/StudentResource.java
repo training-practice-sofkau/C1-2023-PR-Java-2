@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.Objects;
 
-@RestController
+//@RestController
 @AllArgsConstructor
 public class StudentResource {
 
