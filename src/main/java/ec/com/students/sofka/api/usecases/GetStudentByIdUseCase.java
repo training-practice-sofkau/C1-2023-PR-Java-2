@@ -20,7 +20,8 @@ public class GetStudentByIdUseCase implements Function<String, Mono<StudentDTO>>
     public Mono<StudentDTO> apply(String id) {
         return this.studentRepository
                 .findById(id)
-                .switchIfEmpty(Mono.empty())
-                .map(student-> modelMapper.map(student, StudentDTO.class));
+                .switchIfEmpty(Mono.error(new Throwable("Not found")))
+                .map(student-> modelMapper.map(student, StudentDTO.class))
+                .onErrorResume(throwable -> Mono.error(throwable));
     }
 }
