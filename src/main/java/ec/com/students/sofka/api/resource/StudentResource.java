@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
 
-@RestController
+//@RestController
 @AllArgsConstructor
 
 public class StudentResource {
@@ -37,7 +37,6 @@ public class StudentResource {
                 .switchIfEmpty(Mono.error(new Throwable(HttpStatus.NOT_FOUND.toString())))
                 .map(StudentDTO -> new ResponseEntity<>(StudentDTO, HttpStatus.FOUND))
                 .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(HttpStatus.NOT_FOUND)));
-
     }
 
     @PostMapping("/students")
@@ -66,6 +65,5 @@ public class StudentResource {
                 .map(s -> new ResponseEntity<>("Student deleted "+s, HttpStatus.OK))
                 .onErrorResume(throwable -> Mono.just(new ResponseEntity<>(throwable.getMessage(), HttpStatus.NOT_FOUND)));
     }
-
 
 }
