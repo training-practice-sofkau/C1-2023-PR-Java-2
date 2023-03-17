@@ -4,6 +4,7 @@ import ec.com.students.sofka.api.domain.collection.Student;
 import ec.com.students.sofka.api.domain.dto.StudentDTO;
 import ec.com.students.sofka.api.repository.IStudentRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentMatchers;
@@ -31,6 +32,7 @@ class SaveStudentUseCaseTest {
     }
 
     @Test
+    @DisplayName("saveStudents Success")
     void saveBook() {
 
         var student = new Student("1069759", "name", "lastName", false);
